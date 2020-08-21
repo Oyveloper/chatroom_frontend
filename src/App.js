@@ -1,26 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import * as SockJS from "sockjs-client";
+import * as Stomp from "stompjs";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    console.log(Stomp);
+    connectToBackendTest(setMessage);
+  });
+
+  const latestMessageDisplay = (
+    <div className="messageDisplay">
+      <p>{message}</p>
     </div>
   );
+
+  return <div className="App">{latestMessageDisplay}</div>;
 }
+
+let stompClient = null;
+function connectToBackendTest(setMessage) {
+  let socket = new SockJS("http://localhost:8080/message-websocket");
+  stompClient = Stomp.over(socket);
+  console.log(stompClient);
+  stompClient.connect({}, function (frame) {
+    console.log("Connected");
+    stompClient.subscribe("/topic/greetings", (greeting) => {
+      setMessage(greeting.body);
+    });
+
+    sendMessage();
+  });
+}
+
+function disconnect() {
+  if (stompClient !== null) {
+    stompClient.disconnect();
+  }
+  console.log("Disconnect");
+}
+
+function sendMessage() {
+  stompClient.send("/app/greetings", {}, JSON.stringify({ content: "me" }));
+}
+
+function showGreeting() {}
 
 export default App;

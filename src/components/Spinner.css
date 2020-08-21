@@ -1,0 +1,4 @@
+.Spinner > div {
+  border-top: 1px solid gray;
+  border-radius: 50%;
+}
