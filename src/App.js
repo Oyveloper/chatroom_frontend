@@ -1,50 +1,25 @@
-import React, { useEffect, useState } from "react";
-import * as SockJS from "sockjs-client";
-import * as Stomp from "stompjs";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import LandingPage from "./Pages/LandingPage";
+import SessionPage from "./Pages/SessionPage";
 
 function App() {
-  const [message, setMessage] = useState("");
+  return (
+    <Router>
+      <Switch>
+        <Route path="/random">Random</Route>
 
-  useEffect(() => {
-    console.log(Stomp);
-    connectToBackendTest(setMessage);
-  });
+        <Route path="/sessions/:room">
+          <SessionPage />
+        </Route>
 
-  const latestMessageDisplay = (
-    <div className="messageDisplay">
-      <p>{message}</p>
-    </div>
+        <Route path="/">
+          <LandingPage />
+        </Route>
+      </Switch>
+    </Router>
   );
-
-  return <div className="App">{latestMessageDisplay}</div>;
 }
-
-let stompClient = null;
-function connectToBackendTest(setMessage) {
-  let socket = new SockJS("http://localhost:8080/message-websocket");
-  stompClient = Stomp.over(socket);
-  console.log(stompClient);
-  stompClient.connect({}, function (frame) {
-    console.log("Connected");
-    stompClient.subscribe("/topic/greetings", (greeting) => {
-      setMessage(greeting.body);
-    });
-
-    sendMessage();
-  });
-}
-
-function disconnect() {
-  if (stompClient !== null) {
-    stompClient.disconnect();
-  }
-  console.log("Disconnect");
-}
-
-function sendMessage() {
-  stompClient.send("/app/greetings", {}, JSON.stringify({ content: "me" }));
-}
-
-function showGreeting() {}
 
 export default App;

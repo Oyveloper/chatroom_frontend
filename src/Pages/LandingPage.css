@@ -1,0 +1,81 @@
+.LandingPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--main-background);
+}
+
+.LandingDialog {
+  background-color: #eee;
+  padding: 30px;
+  border-radius: 5px;
+
+  box-shadow: 2px 2px 8px 2px #2226;
+
+  display: none;
+}
+
+.LandingDialog.ActiveDialog {
+  opacity: 1;
+  display: block;
+  animation: 0.5s ease-in-out fadeIn;
+}
+
+.LandingDialog:not(.ActiveDialog) {
+  animation: 0.5s ease-in-out fadeOut;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+input {
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#MessageContainer h1 {
+  margin-bottom: 20px;
+}
+
+#WelcomeActionContainer {
+  display: grid;
+  grid-gap: 10px;
+  width: 100%;
+  justify-content: center;
+
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+#create-dialog {
+  text-align: center;
+}
+#create-dialog button {
+  margin-top: 10px;
+}
