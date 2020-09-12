@@ -5,13 +5,13 @@ import "./Page.css";
 import "./LandingPage.css";
 
 import errorHandler from "../common/errorHandler";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export default function LandingPage() {
   const [joinMethod, setJoinMethod] = useState("");
   const [roomCode, setRoomCode] = useState("");
 
-  const [joinedRoom, setJoinedRoom] = useState(false);
+  const history = useHistory();
 
   const joinDialog = (
     <div
@@ -32,7 +32,7 @@ export default function LandingPage() {
 
       <button
         onClick={() => {
-          setJoinedRoom(roomCode);
+          history.push(`/sessions/${roomCode}`);
         }}
       ></button>
     </div>
@@ -62,7 +62,7 @@ export default function LandingPage() {
         onClick={() => {
           createRoomByCode(roomCode).then((success) => {
             if (success) {
-              setJoinedRoom(true);
+              history.push(`/sessions/${roomCode}`);
             }
           });
         }}
@@ -100,10 +100,6 @@ export default function LandingPage() {
       </div>
     </div>
   );
-
-  if (joinedRoom) {
-    return <Redirect to={`/sessions/${roomCode}`} />;
-  }
 
   return (
     <div className="LandingPage Page">
