@@ -1,0 +1,17 @@
+#JoinPage {
+  background-color: var(--main-background);
+  color: white;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+
+#JoinPage form {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+#JoinPage form > * {
+  margin-bottom: 20px;
+}
