@@ -24,9 +24,21 @@ html,
   padding: 10px;
   border-radius: 5px;
   border: none;
+  text-decoration: none;
+  text-align: center;
 }
 
 .button-blue {
   background-color: var(--main-blue);
   color: white;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 5px;
+  color: black;
+
+  font-size: 18px;
 }
